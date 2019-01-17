@@ -196,18 +196,19 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         
         let cell = tableView.cellForRow(at: indexPath!) as! PostTableViewCell
         
-        let commentText = cell.commentTextField?.text
+        let commentText = "\(uid!) : \(cell.commentTextField.text!)"
+    
     
             //コメントを追加
-            postData.comments.append(commentText!)
-        
-        //コメント欄に入力者：コメントをtextfieldに表示する
-        cell.commentTextField?.text = "\(uid!):\(commentText!)"
+        postData.comments.append(commentText)
         
         //増えたコメントをfirebaseに保存する
         let postRef = Database.database().reference().child(Const.PostPath).child(postData.id!)
         let comments = ["comments": postData.comments]
         postRef.updateChildValues(comments)
+        
+        cell.commentTextField.text = ""
+        
     }
     
 }
